@@ -25,6 +25,28 @@ router.get("/list", (req, res) => {
   });
 });
 
+router.get("/list_active", (req, res) => {
+  const Brand = mongoose.model("brand", brandSchema);
+  Brand.find({ status: "active" }, (err, data) => {
+    if (!err) {
+      res.send({
+        error: null,
+        statusCode: 200,
+        body: {
+          message: "brands fetched",
+          data: data,
+        },
+      });
+    } else {
+      res.json({
+        error: "un-able to fetch brands",
+        statusCode: 205,
+        body: null,
+      });
+    }
+  });
+});
+
 router.post("/add", (req, res) => {
   const Brand = mongoose.model("brand", brandSchema);
   Brand.exists(

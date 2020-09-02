@@ -25,6 +25,28 @@ router.get("/all_users", (req, res) => {
   });
 });
 
+router.get("/all_active_users", (req, res) => {
+  const User = mongoose.model("user", userSchema);
+  User.find({ status: "active" }, (err, data) => {
+    if (!err) {
+      res.json({
+        statusCode: 200,
+        error: null,
+        body: {
+          message: "Data retreving successfull",
+          data,
+        },
+      });
+    } else {
+      res.json({
+        statusCode: 205,
+        error: err,
+        body: null,
+      });
+    }
+  });
+});
+
 router.post("/delete", (req, res) => {
   const User = mongoose.model("user", userSchema);
   const email = req.body.email;

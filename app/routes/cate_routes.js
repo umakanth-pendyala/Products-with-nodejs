@@ -25,6 +25,28 @@ router.get("/list", (req, res) => {
   });
 });
 
+router.get("/list_active", (req, res) => {
+  const Category = mongoose.model("category", categorySchema);
+  Category.find({ status: "active" }, (err, data) => {
+    if (!err) {
+      res.send({
+        error: null,
+        statusCode: 200,
+        body: {
+          message: "categoryes fetched",
+          data: data,
+        },
+      });
+    } else {
+      res.json({
+        error: "un-able to fetch categoryes",
+        statusCode: 205,
+        body: null,
+      });
+    }
+  });
+});
+
 router.post("/add", (req, res) => {
   const Category = mongoose.model("category", categorySchema);
   Category.exists(

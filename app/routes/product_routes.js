@@ -29,6 +29,28 @@ router.get("/list", (req, res) => {
   });
 });
 
+router.get("/list_active", (req, res) => {
+  const Product = mongoose.model("product", productSchema);
+  Product.find({ status: "active" }, (err, data) => {
+    if (!err) {
+      res.send({
+        error: null,
+        statusCode: 200,
+        body: {
+          message: "products fetched (active)",
+          data: data,
+        },
+      });
+    } else {
+      res.json({
+        error: "un-able to fetch products",
+        statusCode: 205,
+        body: null,
+      });
+    }
+  });
+});
+
 router.post("/add", async (req, res) => {
   const Product = mongoose.model("product", productSchema);
 
@@ -209,6 +231,7 @@ router.post("/update_product", async (req, res) => {
       );
       // ************************************************
     } else {
+      if (errors.length == 0) errors.push("please enter the name field");
       res.json({
         error: errors,
         body: null,
@@ -256,8 +279,8 @@ router.post("/delete", (req, res) => {
         );
       } else {
         res.json({
-          error: "product do not exist",
-          statusCode: 200,
+          error: "product do not exist | email is in-correct.",
+          statusCode: 205,
           body: null,
         });
       }
