@@ -4,10 +4,8 @@ const mongoose = require("mongoose");
 var router = express.Router();
 
 router.post("/login", (req, res) => {
-  // res.send("this is about page");
   const email = req.body.email;
   const password = req.body.password;
-
   const User = mongoose.model("user", userSchema);
   User.find(
     {

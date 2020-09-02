@@ -30,5 +30,3 @@ app.use("/category", categoryRoutes);
 app.use("/product", productRoutes);
 
 app.listen(3000, () => console.log("port listening on 3000"));
-
-//  mongodb://localhost:27017/<DB name>

@@ -56,7 +56,6 @@ router.post("/add", async (req, res) => {
 
   errors = [];
   var quantity = parseInt(req.body.quantity);
-  // console.log(quantity);
   if (
     req.body.name == undefined ||
     req.body.price == undefined ||
@@ -91,7 +90,6 @@ router.post("/add", async (req, res) => {
       req.body.category,
       req.body.name
     );
-    // console.log(errors);
     if (errors.length > 0) {
       res.json({
         error: errors,
@@ -165,7 +163,6 @@ router.post("/update_product", async (req, res) => {
       errors.length < 2 &&
       errors[0] == "the product arleady exists"
     ) {
-      // ************************************************
       Product.find(
         {
           name: req.body.name,
@@ -173,7 +170,6 @@ router.post("/update_product", async (req, res) => {
         },
         (err, data) => {
           if (!err && data.length > 0) {
-            // console.log(data[0]);
             data[0].name =
               updatedObject.name == undefined
                 ? data[0].name
@@ -229,7 +225,6 @@ router.post("/update_product", async (req, res) => {
           }
         }
       );
-      // ************************************************
     } else {
       if (errors.length == 0) errors.push("please enter the name field");
       res.json({
@@ -239,8 +234,6 @@ router.post("/update_product", async (req, res) => {
       });
     }
   }
-
-  // console.log(updatedObject);
 });
 
 router.post("/delete", (req, res) => {
@@ -399,8 +392,6 @@ const checkProduct = async (
     status: "active",
     type: "vendor",
   });
-
-  // console.log(userEmail, userExists);
   const brandExists = await Brand.exists({
     name: brandName,
   });
@@ -429,110 +420,3 @@ const checkProduct = async (
 };
 
 module.exports = router;
-
-// await User.exists(
-//   {
-//     email: req.body.user_email,
-//     type: "vendor",
-//     status: "active",
-//   },
-//   (err, userExists) => {
-//     if (!err && userExists) {
-//       Category.exists(
-//         {
-//           name: req.body.category,
-//         },
-//         (err, categoryExists) => {
-//           if (!err && categoryExists) {
-//             Brand.exists(
-//               {
-//                 name: req.body.brand,
-//               },
-//               (err, brandExists) => {
-//                 Product.find(
-//                   {
-//                     name: req.body.name,
-//                     user_email: req.body.user_email,
-//                   },
-//                   (err, data) => {
-//                     if (!err && data.length != 0) {
-//                       res.json({
-//                         error: "the same product cannot be added again",
-//                         statusCode: 205,
-//                         body: null,
-//                       });
-//                     } else if (data.length == 0 && !err) {
-//                       if (!err && brandExists) {
-//                         const newProduct = new Product({
-//                           name: req.body.name,
-//                           price: req.body.price,
-//                           quantity: req.body.quantity,
-//                           user_email: req.body.user_email,
-//                           brand: req.body.brand,
-//                           category: req.body.category,
-//                           status: req.body.status,
-//                         });
-//                         newProduct.save((err) => {
-//                           if (!err) {
-//                             res.json({
-//                               error: null,
-//                               statusCode: 200,
-//                               body: {
-//                                 message: "Product saved.",
-//                               },
-//                             });
-//                           } else {
-//                             res.json({
-//                               error: "data not saved.",
-//                               statusCode: 205,
-//                               body: null,
-//                             });
-//                           }
-//                         });
-//                       }
-//                     } else if (err) {
-//                       res.json({
-//                         error: "data not saved",
-//                         statusCode: 205,
-//                         body: null,
-//                       });
-//                     }
-//                   }
-//                 );
-
-//                 if (!brandExists) {
-//                   res.json({
-//                     error: "the specified brand do not exist",
-//                     statusCode: 205,
-//                     body: null,
-//                   });
-//                 }
-//               }
-//             );
-//           }
-//           if (!categoryExists) {
-//             res.json({
-//               error: "the specified category do not exist",
-//               statusCode: 205,
-//               body: null,
-//             });
-//           }
-//           if (err) {
-//             res.json({
-//               error: "data not saved",
-//               statusCode: 205,
-//               body: null,
-//             });
-//           }
-//         }
-//       );
-//     }
-//     if (!userExists) {
-//       res.json({
-//         error: "the user(vendor) with following email do not exist",
-//         statusCode: 205,
-//         body: null,
-//       });
-//     }
-//   }
-// );

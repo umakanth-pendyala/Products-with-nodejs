@@ -107,14 +107,11 @@ router.post("/update_user", (req, res) => {
     bio: req.body.bio,
     type: req.body.type,
   };
-
-  // console.log(updatedObject);
   User.find(
     {
       email: req.body.email,
     },
     (err, data) => {
-      // updating data object
       if (!err && data.length != 0) {
         error = [];
         (data[0].name =

@@ -137,7 +137,6 @@ router.post("/update", (req, res) => {
               updatedObject.image == undefined ? null : updatedObject.image;
             data[0].status =
               updatedObject.status == undefined ? null : updatedObject.status;
-
             new Category(data[0]).save((err) => {
               if (!err) {
                 res.json({
